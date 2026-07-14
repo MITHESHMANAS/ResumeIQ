@@ -1,0 +1,37 @@
+# Python
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+
+venv/
+env/
+
+# Environment Variables
+
+.env
+
+# Uploaded resumes
+
+Uploaded_Resumes/
+
+# Database
+
+*.db
+*.sqlite
+
+# IDE
+
+.vscode/
+.idea/
+
+# OS
+
+.DS_Store
+Thumbs.db
+
+# Logs
+
+*.log
