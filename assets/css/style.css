@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Resume Analyzer - Professional Theme
+   ========================================================================== */
+
+/* ------------------------------
+   Global
+--------------------------------*/
+html,
+body,
+[class*="css"] {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.main {
+    padding: 1rem 2rem;
+    background-color: #f5f7fb;
+}
+
+/* ------------------------------
+   Headings
+--------------------------------*/
+h1,
+h2,
+h3,
+h4 {
+    color: #16213e;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+p,
+label,
+span {
+    color: #444;
+}
+
+/* ------------------------------
+   Sidebar
+--------------------------------*/
+
+section[data-testid="stSidebar"] {
+    background: #ffffff;
+    border-right: 1px solid #e6eaf0;
+}
+
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3 {
+    color: #16213e;
+}
+
+/* ------------------------------
+   Buttons
+--------------------------------*/
+
+.stButton>button {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.stButton>button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+/* ------------------------------
+   Inputs
+--------------------------------*/
+
+.stTextInput input,
+.stTextArea textarea,
+.stNumberInput input,
+.stSelectbox div[data-baseweb="select"] {
+    border-radius: 10px !important;
+}
+
+/* ------------------------------
+   File Uploader
+--------------------------------*/
+
+section[data-testid="stFileUploader"] {
+    border: 2px dashed #2563eb;
+    border-radius: 12px;
+    padding: 15px;
+    background: white;
+}
+
+/* ------------------------------
+   Metric Cards
+--------------------------------*/
+
+div[data-testid="metric-container"] {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+div[data-testid="metric-container"]:hover {
+    transform: translateY(-2px);
+    transition: .25s;
+}
+
+/* ------------------------------
+   Expanders
+--------------------------------*/
+
+details {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 6px;
+}
+
+/* ------------------------------
+   Progress Bar
+--------------------------------*/
+
+.stProgress>div>div>div>div {
+    background: linear-gradient(90deg, #2563eb, #06b6d4);
+}
+
+/* ------------------------------
+   DataFrame
+--------------------------------*/
+
+div[data-testid="stDataFrame"] {
+    border-radius: 10px;
+}
+
+/* ------------------------------
+   Success
+--------------------------------*/
+
+div[data-testid="stAlert"] {
+    border-radius: 10px;
+}
+
+/* ------------------------------
+   Cards
+--------------------------------*/
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 18px;
+    border: 1px solid #edf1f7;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+/* ------------------------------
+   Footer
+--------------------------------*/
+
+.footer {
+    margin-top: 40px;
+    padding: 15px;
+    text-align: center;
+    color: #7b8794;
+    font-size: 14px;
+}
+
+/* ------------------------------
+   Divider
+--------------------------------*/
+
+hr {
+    border: none;
+    border-top: 1px solid #e6eaf0;
+    margin: 25px 0;
+}
+
+/* ------------------------------
+   Scrollbar
+--------------------------------*/
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b8c2cc;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ------------------------------
+   Animations
+--------------------------------*/
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.block-container {
+    animation: fadeIn .4s ease;
+}
