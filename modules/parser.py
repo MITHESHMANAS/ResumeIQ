@@ -139,29 +139,93 @@ class ResumeParser:
 
     # ==========================================================
     # Extraction Methods
-    # (Implemented in next commit)
     # ==========================================================
 
-    def _extract_name(self):
+    def _extract_name(self) -> None:
+        """
+        Extract candidate name using spaCy PERSON entities.
+        Falls back to the first meaningful line if needed.
+        """
+        doc = self.nlp(self.resume_text)
+
+        for entity in doc.ents:
+            if entity.label_ == "PERSON":
+                if len(entity.text.split()) <= 4:
+                    self.data["name"] = entity.text.strip()
+                    return
+
+        for line in self.resume_text.splitlines():
+            line = line.strip()
+            if (
+                line
+                and len(line.split()) <= 4
+                and not any(ch.isdigit() for ch in line)
+                and "@" not in line
+            ):
+                self.data["name"] = line
+                return
+
+    def _extract_email(self) -> None:
+        pattern = r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
+        match = re.search(pattern, self.resume_text)
+        if match:
+            self.data["email"] = match.group()
+
+    def _extract_phone(self) -> None:
+        pattern = (
+            r"(?:\+?\d{1,3}[\s-]?)?"
+            r"(?:\(?\d{3}\)?[\s-]?)?"
+            r"\d{3}[\s-]?\d{4}"
+        )
+        matches = re.findall(pattern, self.resume_text)
+        for phone in matches:
+            digits = re.sub(r"\D", "", phone)
+            if len(digits) >= 10:
+                self.data["phone"] = digits[-10:]
+                return
+
+    def _extract_github(self) -> None:
+        pattern = r"github\.com/[A-Za-z0-9_.-]+"
+        match = re.search(pattern, self.resume_text, re.I)
+        if match:
+            self.data["github"] = "https://" + match.group()
+
+    def _extract_linkedin(self) -> None:
+        pattern = r"linkedin\.com/in/[A-Za-z0-9_-]+"
+        match = re.search(pattern, self.resume_text, re.I)
+        if match:
+            self.data["linkedin"] = "https://" + match.group()
+
+    def _extract_degree(self) -> None:
+        degrees = [
+            "B.Tech",
+            "B.E",
+            "M.Tech",
+            "M.E",
+            "BCA",
+            "MCA",
+            "B.Sc",
+            "M.Sc",
+            "MBA",
+            "PhD",
+            "Diploma",
+        ]
+        lower = self.resume_text.lower()
+        for degree in degrees:
+            if degree.lower() in lower:
+                self.data["degree"] = degree
+                return
+
+    def _extract_skills(self) -> None:
         pass
 
-    def _extract_email(self):
-        pass
-
-    def _extract_phone(self):
-        pass
-
-    def _extract_degree(self):
-        pass
-
-    def _extract_skills(self):
-        pass
-
-    def _extract_github(self):
-        pass
-
-    def _extract_linkedin(self):
-        pass
-
-    def _estimate_experience(self):
-        pass
+    def _estimate_experience(self) -> None:
+        text = self.resume_text.lower()
+        if "work experience" in text:
+            self.data["experience"] = "Experienced"
+        elif "experience" in text:
+            self.data["experience"] = "Experienced"
+        elif "internship" in text:
+            self.data["experience"] = "Intermediate"
+        else:
+            self.data["experience"] = "Fresher"
