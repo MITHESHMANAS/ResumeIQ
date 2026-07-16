@@ -46,6 +46,13 @@ class ResumeParser:
 
         self._extract_pdf_text()
 
+    @property
+    def text(self) -> str:
+        """
+        Returns cleaned resume text.
+        """
+        return self.resume_text
+
     # ==========================================================
     # spaCy
     # ==========================================================
@@ -134,6 +141,8 @@ class ResumeParser:
         self._extract_skills()
 
         self._estimate_experience()
+        
+        self.data["total_skills"] = len(self.data["skills"])
 
         return self.data
 
@@ -217,7 +226,90 @@ class ResumeParser:
                 return
 
     def _extract_skills(self) -> None:
-        pass
+        """
+        Extract technical skills from the resume.
+
+        - Case insensitive
+        - Removes duplicates
+        - Supports aliases
+        - Returns sorted skills
+        """
+        skill_catalog = {
+            # Programming Languages
+            "python": ["python"],
+            "java": ["java"],
+            "c": [" c "],
+            "c++": ["c++"],
+            "c#": ["c#", "csharp"],
+            "javascript": ["javascript", "js"],
+            "typescript": ["typescript", "ts"],
+            "go": ["golang", "go"],
+            "rust": ["rust"],
+            # Web
+            "html": ["html"],
+            "css": ["css"],
+            "bootstrap": ["bootstrap"],
+            "tailwind css": ["tailwind"],
+            "react": ["react", "reactjs"],
+            "next.js": ["nextjs", "next.js"],
+            "vue": ["vue"],
+            "angular": ["angular"],
+            "node.js": ["node", "nodejs", "node.js"],
+            "express.js": ["express", "expressjs"],
+            # Database
+            "mysql": ["mysql"],
+            "postgresql": ["postgres", "postgresql"],
+            "mongodb": ["mongodb"],
+            "sqlite": ["sqlite"],
+            # AI / ML
+            "machine learning": ["machine learning"],
+            "deep learning": ["deep learning"],
+            "tensorflow": ["tensorflow"],
+            "keras": ["keras"],
+            "pytorch": ["pytorch"],
+            "opencv": ["opencv"],
+            "nlp": ["nlp", "natural language processing"],
+            "computer vision": ["computer vision"],
+            "pandas": ["pandas"],
+            "numpy": ["numpy"],
+            "matplotlib": ["matplotlib"],
+            "scikit-learn": ["sklearn", "scikit-learn"],
+            # Cloud
+            "aws": ["aws"],
+            "azure": ["azure"],
+            "gcp": ["google cloud", "gcp"],
+            # DevOps
+            "docker": ["docker"],
+            "kubernetes": ["kubernetes"],
+            "git": ["git"],
+            "github": ["github"],
+            # Mobile
+            "android": ["android"],
+            "flutter": ["flutter"],
+            "dart": ["dart"],
+            "swift": ["swift"],
+            "kotlin": ["kotlin"],
+            # UI
+            "figma": ["figma"],
+            "adobe xd": ["adobe xd"],
+            # Misc
+            "linux": ["linux"],
+            "streamlit": ["streamlit"],
+            "flask": ["flask"],
+            "django": ["django"],
+            "fastapi": ["fastapi"],
+        }
+
+        text = self.resume_text.lower()
+        detected = set()
+
+        for skill, aliases in skill_catalog.items():
+            for alias in aliases:
+                if alias in text:
+                    detected.add(skill)
+                    break
+
+        self.data["skills"] = sorted(detected)
 
     def _estimate_experience(self) -> None:
         text = self.resume_text.lower()
